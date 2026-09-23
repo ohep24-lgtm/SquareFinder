@@ -4,7 +4,7 @@ import os
 pygame.init() 
 
 class Canvas:
-    def __init__(self, size=(500,500), save_dir='square'):
+    def __init__(self, size=(500,500), save_dir='not_square'):
         pygame.init()
         self.screen = pygame.display.set_mode(size)
         self.screen.fill((255,255,255))
@@ -41,5 +41,5 @@ class Canvas:
         pygame.quit()
 
 if  __name__ == '__main__':
-    Canvas(save_dir='square').run() 
+    Canvas(save_dir='not_square').run() 
     
