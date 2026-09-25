@@ -41,5 +41,5 @@ class Canvas:
         pygame.quit()
 
 if  __name__ == '__main__':
-    Canvas(save_dir='not_square').run() 
+    Canvas(save_dir='square').run() 
     
