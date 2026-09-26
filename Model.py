@@ -40,21 +40,10 @@ class Model(nn.Module):
         self.optimizer.step()
         if verbose:
             print(loss.item())
-    def save(self, path):
-        torch.save(self.state_dict(), path)
+    def save(self, file_name='Models/Model.pth'):
+        torch.save(self.state_dict(), file_name)
+    def load(self, file_name='Models/Model.pth'):
+        self.load_state_dict(torch.load(file_name))
 
-    def load(self, path):
-        self.load_state_dict(torch.load(path))
 
 
-if __name__ == "__main__":
-    model = Model()
-    dummy_input = torch.randn(4, 1, 64, 64)   
-    dummy_target = torch.tensor([1.0, 0.0, 1.0, 0.0])
-
-    output = model(dummy_input)
-    print("Output shape:", output.shape)
-
-    model.trainn(dummy_input, dummy_target)
-
-# this is just test data make sure to remove when we got the data sorted
