@@ -1,7 +1,7 @@
 import torch
 import numpy as np
 import torch
-from Model import Model
+from model import Model
 
 model = Model()
 dataset_file = 'dataset.npz'
@@ -17,5 +17,5 @@ for _ in range(1):
         print(target)
         model.trainn(inp, target)
 
-model.save('square_model.pt')
+model.save('models.pt')
 # why dont we use batching ?

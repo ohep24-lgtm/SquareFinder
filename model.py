@@ -40,9 +40,9 @@ class Model(nn.Module):
         self.optimizer.step()
         if verbose:
             print(loss.item())
-    def save(self, file_name='Models/Model.pth'):
+    def save(self, file_name='models/model.pth'):
         torch.save(self.state_dict(), file_name)
-    def load(self, file_name='Models/Model.pth'):
+    def load(self, file_name='models/model.pth'):
         self.load_state_dict(torch.load(file_name))
 
 

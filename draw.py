@@ -19,6 +19,7 @@ class Canvas:
         self.count += 1
         self.screen.fill((255,255,255))
         print(f'saved {path}')
+        return path
 
     def run(self):
         running = True
