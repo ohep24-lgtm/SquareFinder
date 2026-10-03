@@ -18,15 +18,14 @@ class Model(nn.Module):
         )
 
         self.classifier = nn.Sequential(
-            nn.Flatten(),           
-           nn.Linear(256, 3000),# slightly changed the input size to match the test data may have a little tweaking requiered later idk 
+            nn.Flatten(),
+            nn.Linear(256, 32),
             nn.ReLU(),
-            nn.Linear(3000, 1)
+            nn.Linear(32, 1)
         )
-        self.optimizer = SGD(self.parameters(), lr=0.01)
-        self.criterion = nn.BCEWithLogitsLoss() 
+        self.optimizer = SGD(self.parameters(), lr=0.01, momentum=0.9)
+        self.criterion = nn.BCEWithLogitsLoss()
 
-      
     def forward(self, x):
         x = self.features(x)
         x = self.classifier(x)
@@ -35,15 +34,14 @@ class Model(nn.Module):
     def trainn(self, inp, target, verbose=True):
         self.optimizer.zero_grad()
         output = self.forward(inp)
-        loss = self.criterion(output.squeeze(), target.float())
+        loss = self.criterion(output.squeeze(-1), target.float())
         loss.backward()
         self.optimizer.step()
         if verbose:
             print(loss.item())
+
     def save(self, file_name='models/model.pth'):
         torch.save(self.state_dict(), file_name)
+
     def load(self, file_name='models/model.pth'):
-        self.load_state_dict(torch.load(file_name))
-
-
-
+        self.load_state_dict(torch.load(file_name, weights_only=True))
