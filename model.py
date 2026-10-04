@@ -1,28 +1,30 @@
 import torch
 from torch import nn
 from torch.optim import SGD
-import torch.nn.functional as F
 
 class Model(nn.Module):
     def __init__(self):
         super(Model, self).__init__()
 
         self.features = nn.Sequential(
-            nn.Conv2d(in_channels=1, out_channels=4, kernel_size=3),
+            nn.Conv2d(in_channels=1, out_channels=8, kernel_size=3),
             nn.ReLU(),
             nn.MaxPool2d(kernel_size=3),
 
-            nn.Conv2d(in_channels=4, out_channels=4, kernel_size=3),
+            nn.Conv2d(in_channels=8, out_channels=8, kernel_size=3),
             nn.ReLU(),
-            nn.MaxPool2d(kernel_size=3, stride=2)
+            nn.MaxPool2d(kernel_size=3, stride=2),
+
+            nn.AdaptiveMaxPool2d(1), 
         )
 
         self.classifier = nn.Sequential(
-            nn.Flatten(),
-            nn.Linear(256, 32),
+            nn.Flatten(),              # (B, 8, 1, 1) -> (B, 8) no more positional bias like previous attempts 
+            nn.Linear(8, 16),
             nn.ReLU(),
-            nn.Linear(32, 1)
+            nn.Linear(16, 1),
         )
+
         self.optimizer = SGD(self.parameters(), lr=0.01, momentum=0.9)
         self.criterion = nn.BCEWithLogitsLoss()
 
@@ -39,6 +41,7 @@ class Model(nn.Module):
         self.optimizer.step()
         if verbose:
             print(loss.item())
+        return loss.item()
 
     def save(self, file_name='models/model.pth'):
         torch.save(self.state_dict(), file_name)

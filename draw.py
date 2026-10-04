@@ -12,6 +12,7 @@ class Canvas:
         os.makedirs(save_dir, exist_ok=True)
         self.count = len(os.listdir(save_dir))
         self.drawing = False
+        self.last_saved = None    
 
     def save(self):
         path = os.path.join(self.save_dir, f'{self.count}.png')
@@ -19,6 +20,7 @@ class Canvas:
         self.count += 1
         self.screen.fill((255,255,255))
         print(f'saved {path}')
+        self.last_saved = path #important as before we had difficulties in accessing the last saved image 
         return path
 
     def run(self):
